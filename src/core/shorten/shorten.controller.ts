@@ -11,6 +11,7 @@ export class ShortenController {
   shortenUrl(@Body() shortenUrlDto: ShortenUrlDto) {
     return this.shortenService.shortenUrl(shortenUrlDto);
   }
+
   @UseGuards(JwtAuthGuard)
   @Get('test/:alias')
   getOriginalUrl(@Param('alias') alias: string) {
