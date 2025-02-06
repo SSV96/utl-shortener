@@ -1,35 +1,23 @@
-# Use an official Node.js runtime as a parent image
-FROM node:22-alpine AS builder
+# Use the official Node.js image
+FROM node:22-alpine
 
-# Set working directory inside the container
-WORKDIR /usr/src/app
+# Set the working directory
+WORKDIR /app
 
-# Copy package.json and package-lock.json to leverage Docker's layer caching
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --omit=dev
+RUN npm install -g @nestjs/cli && npm ci
 
-# Copy the entire source code
+# Copy the rest of the application
 COPY . .
 
-# Build the NestJS application
-RUN npm run build
+# Build the NestJS app
+RUN npx nest build
 
-# Create a minimal production image
-FROM node:22-alpine AS runner
+# Expose the application port
+EXPOSE 3000
 
-# Set working directory
-WORKDIR /usr/src/app
-
-# Copy only necessary files from the builder stage
-COPY --from=builder /usr/src/app/package*.json ./
-COPY --from=builder /usr/src/app/node_modules ./node_modules
-COPY --from=builder /usr/src/app/dist ./dist
-COPY --from=builder /usr/src/app/.env .env
-
-# Expose the port the app runs on
-EXPOSE 3001
-
-# Run the application
-CMD ["node", "dist/main"]
+# Start the application
+CMD ["node", "dist/main.js"]
