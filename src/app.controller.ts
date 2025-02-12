@@ -16,4 +16,11 @@ export class AppController {
   homepage(@Req() req): string {
     return this.appService.getHello();
   }
+  @Get('/health')
+  healthCheck() {
+    return {
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+    };
+  }
 }
