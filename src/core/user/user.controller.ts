@@ -21,7 +21,6 @@ export class UserController {
     // Set token as an HTTP-only cookie
     res.cookie('Authorization', `Bearer ${token}`, {
       httpOnly: true, // Prevents JavaScript access for security
-      secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
       sameSite: 'lax',
     });
 
