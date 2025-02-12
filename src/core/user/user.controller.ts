@@ -1,7 +1,7 @@
-import { Controller, Get, Redirect, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { GoogleAuthGuard } from 'src/core/user/utils/google.guard';
 import { JwtService } from '@nestjs/jwt';
-import { AuthenticatedRequest } from './interface/authenticated.request.interface';
+import { AuthenticatedRequest } from '../../common/interfaces/interface/authenticated.request.interface';
 
 @Controller('user')
 export class UserController {

@@ -18,7 +18,7 @@ class Shorten {
 
   @Prop({
     type: String,
-    default: null,
+    required: true,
   })
   customAlias: string;
 
@@ -27,6 +27,16 @@ class Shorten {
     required: true,
   })
   topic: string;
+
+  @Prop({
+    type: Date,
+  })
+  createdAt: string;
+
+  @Prop({
+    type: Date,
+  })
+  updatedAt: string;
 }
 
 const ShortenSchema = SchemaFactory.createForClass(Shorten);

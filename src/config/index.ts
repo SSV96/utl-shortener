@@ -5,12 +5,14 @@ const config = (config: Record<string, unknown>) => {
   const APP_NAME = 'url-shortener';
   const NODE_ENV = ENVS.NODE_ENV;
   const PORT = ENVS.PORT;
+  const BASE_URL = ENVS.BASE_URL;
 
   return {
     app: {
       appName: APP_NAME,
       env: NODE_ENV,
       port: PORT,
+      baseURL: BASE_URL,
     },
     google: {
       clientID: ENVS.GOOGLE_CLIENT_ID,
