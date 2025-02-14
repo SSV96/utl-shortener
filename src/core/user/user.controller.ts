@@ -30,7 +30,7 @@ export class UserController {
     res.clearCookie('Authorization', {
       httpOnly: true,
     });
-    res.redirect('http://localhost:5173/');
+    res.redirect(`${process.env.FE_BASE_URL}`);
   }
   @UseGuards(GoogleAuthGuard)
   @Get('authenticated/callback')
@@ -41,6 +41,6 @@ export class UserController {
     res.cookie('Authorization', `Bearer ${token}`);
 
     // Perform the redirection
-    res.redirect('http://localhost:5173/form');
+    res.redirect(`${process.env.FE_BASE_URL}`);
   }
 }
