@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { GoogleAuthGuard } from 'src/core/user/utils/google.guard';
 import { JwtService } from '@nestjs/jwt';
 import { AuthenticatedRequest } from '../../common/interfaces/interface/authenticated.request.interface';
@@ -29,6 +29,7 @@ export class UserController {
   logOut(@Req() req: AuthenticatedRequest, @Res() res) {
     res.clearCookie('Authorization', {
       httpOnly: true,
+      secure: true,
     });
     res.redirect(`${process.env.FE_BASE_URL}`);
   }
@@ -38,7 +39,11 @@ export class UserController {
     const token = await this.jwtService.signAsync({ ...req.user });
 
     // Set token as an HTTP-only cookie
-    res.cookie('Authorization', `Bearer ${token}`);
+    res.cookie('Authorization', `Bearer ${token}`, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    });
 
     // Perform the redirection
     res.redirect(`${process.env.FE_BASE_URL}`);

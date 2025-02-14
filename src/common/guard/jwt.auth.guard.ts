@@ -12,23 +12,28 @@ export class JwtAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
 
-    const token = request.cookies.Authorization;
+    let token =
+      request.cookies?.Authorization ||
+      request.headers?.authorization ||
+      request.headers?.['x-auth-token'];
 
     if (token) {
-      const tokenWithoutBearer = token.replace('Bearer ', '');
+      token = token.replace('Bearer ', '');
+
       try {
-        const isValidToken = await this.jwtService.verifyAsync(
-          tokenWithoutBearer,
-          { secret: `${this.configService.get('jwt.secret')}` },
-        );
+        const isValidToken = await this.jwtService.verifyAsync(token, {
+          secret: this.configService.get<string>('jwt.secret'),
+        });
 
         if (isValidToken) {
+          // Attach user information to the request
           request.user = isValidToken._doc || isValidToken.user;
 
           return true;
         }
       } catch (error) {
-        return error;
+        console.error('JWT Verification Error:', error);
+        return false;
       }
     }
 
