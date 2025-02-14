@@ -1,17 +1,23 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
 import { AnalyticsService } from './analytics.service';
+import { JwtAuthGuard } from 'src/common/guard/jwt.auth.guard';
 
 @Controller('analytics')
 export class AnalyticsController {
   constructor(private readonly analyticsService: AnalyticsService) {}
 
   @Get(':alias')
-  getAnalytics() {
-    return this.analyticsService.getAnalytics();
+  getAnalytics(@Param('alias') alias: string) {
+    return this.analyticsService.getAnalytics(alias);
   }
 
   @Get('topic/:topic')
-  getAnalyticsByTopic() {
-    return this.analyticsService.getAnalyticsByTopic();
+  getAnalyticsByTopic(@Param('topic') topic: string) {
+    return this.analyticsService.getAnalyticsByTopic(topic);
+  }
+  @UseGuards(JwtAuthGuard)
+  @Get('overall')
+  getUserAnalytics(@Req() req) {
+    return this.analyticsService.getUserAnalytics(req.user._id);
   }
 }

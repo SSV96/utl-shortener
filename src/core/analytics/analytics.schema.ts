@@ -8,25 +8,28 @@ class Analytics {
   _id: string;
 
   @Prop({ type: String, required: true })
-  userId: string;
+  ipAddress: string;
 
-  @Prop({
-    type: String,
-    required: true,
-  })
-  longUrl: string;
-
-  @Prop({
-    type: String,
-    default: null,
-  })
+  @Prop({ type: String, default: null })
   customAlias: string;
 
-  @Prop({
-    type: String,
-    required: true,
-  })
+  @Prop({ type: String, default: null })
+  urlId: string;
+
+  @Prop({ type: String, required: true })
   topic: string;
+
+  @Prop({ type: String, required: true })
+  deviceName: string;
+
+  @Prop({ type: String, required: true })
+  osName: string;
+
+  @Prop({ type: Number, required: true, default: 0 })
+  clickCount: number;
+
+  @Prop({ type: String, required: true })
+  date: string;
 }
 
 const AnalyticsSchema = SchemaFactory.createForClass(Analytics);

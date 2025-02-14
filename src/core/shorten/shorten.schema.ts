@@ -20,6 +20,12 @@ class Shorten {
     type: String,
     required: true,
   })
+  shortUrl: string;
+
+  @Prop({
+    type: String,
+    required: true,
+  })
   customAlias: string;
 
   @Prop({

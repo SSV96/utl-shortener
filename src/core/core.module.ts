@@ -4,7 +4,7 @@ import { ShortenModule } from './shorten/shorten.module';
 import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [UserModule, AnalyticsModule, ShortenModule],
-  exports: [UserModule, AnalyticsModule, ShortenModule],
+  imports: [UserModule, ShortenModule, AnalyticsModule],
+  exports: [UserModule, ShortenModule, AnalyticsModule],
 })
 export class CoreModule {}

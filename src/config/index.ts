@@ -29,6 +29,9 @@ const config = (config: Record<string, unknown>) => {
       secret: ENVS.JWT_SECRET,
       expiresIn: ENVS.JWT_EXPIRES_IN,
     },
+    ipstack: {
+      access_key: ENVS.IP_STACK_ACCESS_KEY,
+    },
   } as const;
 };
 

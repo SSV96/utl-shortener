@@ -11,13 +11,8 @@ export class JwtAuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const cookies = Object.fromEntries(
-      request.headers.cookie.split('; ').map((cookie) => {
-        const [key, value] = cookie.split('=');
-        return [key, decodeURIComponent(value)];
-      }),
-    );
-    const token = cookies.Authorization;
+
+    const token = request.cookies.Authorization;
 
     if (token) {
       const tokenWithoutBearer = token.replace('Bearer ', '');
@@ -26,8 +21,10 @@ export class JwtAuthGuard implements CanActivate {
           tokenWithoutBearer,
           { secret: `${this.configService.get('jwt.secret')}` },
         );
+
         if (isValidToken) {
           request.user = isValidToken._doc || isValidToken.user;
+
           return true;
         }
       } catch (error) {
