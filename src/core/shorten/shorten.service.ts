@@ -82,9 +82,14 @@ export class ShortenService {
     topic?: string;
     userId?: string;
   }) {
-    return await this.model.find({ customAlias, topic, userId });
+    const data = await this.model.find({ customAlias, topic, userId });
+
+    return data;
   }
 
+  async getUrlByUserId(userId: string) {
+    return await this.model.find({ userId });
+  }
   async handleRedirect(alias: string, req: any): Promise<string | null> {
     const url = await this.getOriginalUrl(alias);
 

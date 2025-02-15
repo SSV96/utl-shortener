@@ -24,17 +24,28 @@ export class AnalyticsService {
     let entry = await this.model.findOne({
       ipAddress,
       topic,
+      customAlias: alias,
       date: currentDate,
     });
 
     if (entry) {
       entry.clickCount += 1;
     } else {
+      console.log({
+        ipAddress,
+        topic,
+        deviceName,
+        osName,
+        alias,
+      });
+      const url = await this.shortenService.getOriginalUrl(alias);
+
       entry = new this.model({
         ipAddress,
         topic,
         deviceName,
         osName,
+        urlId: url._id,
         customAlias: alias,
         clickCount: 1,
         date: currentDate,
@@ -121,14 +132,15 @@ export class AnalyticsService {
   }
 
   async getUserAnalytics(userId: string) {
+    console.log('getUserAnalytics', { userId });
     const last7Days = [...Array(7)].map((_, i) => {
       const date = new Date();
       date.setDate(date.getDate() - i);
       return date.toISOString().split('T')[0];
     });
 
-    const userUrls = await this.shortenService.getUrls({ userId });
-
+    const userUrls = await this.shortenService.getUrlByUserId(userId);
+    console.log({ userUrls });
     const totalUrls = userUrls.length;
 
     const urlIds = userUrls.map((url) => url._id);

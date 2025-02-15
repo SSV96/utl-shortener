@@ -23,6 +23,7 @@ export class ShortenController {
     private readonly configService: ConfigService,
   ) {}
   private readonly logger = new Logger(ShortenController.name);
+
   @UseGuards(JwtAuthGuard)
   @Post()
   shortenUrl(
@@ -45,7 +46,7 @@ export class ShortenController {
   async getOriginalUrl(@Param('alias') alias: string, @Req() req, @Res() res) {
     const longUrl = await this.shortenService.handleRedirect(alias, req);
 
-    res.redirect(`https://${longUrl}`);
+    res.redirect(`${longUrl}`);
   }
 
   @UseGuards(JwtAuthGuard)

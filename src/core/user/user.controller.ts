@@ -33,19 +33,20 @@ export class UserController {
     });
     res.redirect(`${process.env.FE_BASE_URL}`);
   }
+
   @UseGuards(GoogleAuthGuard)
   @Get('authenticated/callback')
   async authenticated(@Req() req: AuthenticatedRequest, @Res() res) {
     const token = await this.jwtService.signAsync({ ...req.user });
 
-    // Set token as an HTTP-only cookie
     res.cookie('Authorization', `Bearer ${token}`, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'none',
+      secure: true, // Ensures cookies are sent only over HTTPS
+      sameSite: 'none', // Allows cross-site cookies
     });
 
-    // Perform the redirection
+    res.setHeader('X-Auth-Token', `Bearer ${token}`);
+
     res.redirect(`${process.env.FE_BASE_URL}`);
   }
 }

@@ -15,9 +15,11 @@ export class AnalyticsController {
   getAnalyticsByTopic(@Param('topic') topic: string) {
     return this.analyticsService.getAnalyticsByTopic(topic);
   }
+
   @UseGuards(JwtAuthGuard)
-  @Get('overall')
+  @Get('user/overall')
   getUserAnalytics(@Req() req) {
+    console.log(req.user);
     return this.analyticsService.getUserAnalytics(req.user._id);
   }
 }

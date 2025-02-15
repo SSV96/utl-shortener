@@ -7,7 +7,10 @@ class Shorten {
   @Prop({ type: String, default: () => uuid() })
   _id: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({
+    type: String,
+    required: true,
+  })
   userId: string;
 
   @Prop({
