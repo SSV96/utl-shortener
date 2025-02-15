@@ -16,7 +16,7 @@ export class JwtAuthGuard implements CanActivate {
       request.cookies?.Authorization ||
       request.headers?.authorization ||
       request.headers?.['x-auth-token'];
-    console.log({ token });
+    // console.log({ token });
     if (token) {
       token = token.replace('Bearer ', '');
 

@@ -31,13 +31,13 @@ export class AnalyticsService {
     if (entry) {
       entry.clickCount += 1;
     } else {
-      console.log({
-        ipAddress,
-        topic,
-        deviceName,
-        osName,
-        alias,
-      });
+      // console.log({
+      //   ipAddress,
+      //   topic,
+      //   deviceName,
+      //   osName,
+      //   alias,
+      // });
       const url = await this.shortenService.getOriginalUrl(alias);
 
       entry = new this.model({
@@ -132,7 +132,7 @@ export class AnalyticsService {
   }
 
   async getUserAnalytics(userId: string) {
-    console.log('getUserAnalytics', { userId });
+    // console.log('getUserAnalytics', { userId });
     const last7Days = [...Array(7)].map((_, i) => {
       const date = new Date();
       date.setDate(date.getDate() - i);
@@ -140,7 +140,7 @@ export class AnalyticsService {
     });
 
     const userUrls = await this.shortenService.getUrlByUserId(userId);
-    console.log({ userUrls });
+    // console.log({ userUrls });
     const totalUrls = userUrls.length;
 
     const urlIds = userUrls.map((url) => url._id);

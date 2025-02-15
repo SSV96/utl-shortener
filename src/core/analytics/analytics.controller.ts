@@ -19,7 +19,7 @@ export class AnalyticsController {
   @UseGuards(JwtAuthGuard)
   @Get('user/overall')
   getUserAnalytics(@Req() req) {
-    console.log(req.user);
+    // console.log(req.user);
     return this.analyticsService.getUserAnalytics(req.user._id);
   }
 }
