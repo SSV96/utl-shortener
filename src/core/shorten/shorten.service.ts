@@ -13,6 +13,7 @@ import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
 import * as useragent from 'useragent';
 import { AnalyticsService } from '../analytics/analytics.service';
+import { validate } from 'nestjs-zod';
 
 @Injectable()
 export class ShortenService {
@@ -27,6 +28,10 @@ export class ShortenService {
   async shortenUrl(shortenUrlDto: ShortenUrlDto, userId: string) {
     const { longUrl, customAlias } = shortenUrlDto;
 
+    shortenUrlDto.longUrl =
+      longUrl.startsWith('https://') || longUrl.startsWith('http://')
+        ? longUrl
+        : 'https://' + longUrl;
     const isUrlExists = await this.model.findOne({ longUrl });
 
     if (isUrlExists) {
